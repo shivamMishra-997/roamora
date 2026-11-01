@@ -1,0 +1,40 @@
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const pg=document.body.dataset.p,cur=pg=="studio"?(location.hash=="#prices"?"prices":"about"):pg;
+const nav=[["work.html","Work","work"],["studio.html#about","About","about"],["studio.html#prices","Prices","prices"],["contacts.html","Contact","contacts"]].map(l=>`<a href="${l[0]}"${l[2]==cur?' aria-current="page"':""}>${l[1]}</a>`).join("");
+document.body.insertAdjacentHTML("afterbegin",`<header><a class="logo" href="index.html">Roamora®</a><nav>${nav}</nav><div class="r"><span class="loc mut">INDIA</span><button class="menu" id="mb" aria-label="Open menu">Menu</button></div></header><div id="ov" role="dialog" aria-label="Menu"><button id="mc">Close</button><a href="index.html">Home</a>${nav.replace(/ aria-current="page"/g,"")}</div>`);
+document.body.insertAdjacentHTML("beforeend",`<footer><div class="g"><p>Roamora is a destination and tour-package guide for India. Sample content is illustrative and subject to verification before any trip is sold. Photos load from Wikipedia and Wikimedia Commons and stay under their original open licences.</p><div><b>Pages</b><br><span class="mut"><a href="index.html">Home</a><br><a href="work.html">Work</a><br><a href="studio.html">About &amp; prices</a><br><a href="contacts.html">Contact</a></span></div><div><b>Hours</b><br><span class="mut">Monday–Saturday<br>10:00 AM–6:00 PM IST</span><br><br><b>Contact</b><br><span class="mut">Official enquiry details coming soon.</span></div></div><div class="big">Roamora®</div><div class="yr" style="margin-top:20px"><span>© 2026 Roamora. All rights reserved.</span><span>India, Beyond the Ordinary.</span></div></footer>`);
+const ov=$("#ov");$("#mb").onclick=()=>ov.classList.add("on");$("#mc").onclick=()=>ov.classList.remove("on");$$("#ov a").forEach(a=>a.onclick=()=>ov.classList.remove("on"));
+/* Photos: [Wikipedia article title, fallback gradient]. Change a title here to change a photo. */
+const PH={Meghalaya:["Nongriat","linear-gradient(160deg,#2f6b4f,#10241b)"],Rajasthan:["Hawa Mahal","linear-gradient(160deg,#d28a3c,#6a2f17)"],Goa:["Palolem Beach","linear-gradient(160deg,#3aa6b4,#0e3550)"],Kerala:["Alappuzha","linear-gradient(160deg,#5a9a4f,#16361f)"],Kashmir:["Dal Lake","linear-gradient(160deg,#aebfd6,#3b4a68)"],Tripura:["Neermahal","linear-gradient(160deg,#c0a26a,#4d3a1c)"]};
+const SP=[["Nongriat","Nongriat"],["Cherrapunji","Cherrapunji"],["Dawki","Dawki"],["Hawa Mahal","Hawa Mahal"],["Mehrangarh","Mehrangarh"],["Jaisalmer Fort","Jaisalmer Fort"],["Palolem","Palolem Beach"],["Alleppey","Alappuzha"],["Munnar","Munnar"],["Dal Lake","Dal Lake"],["Gulmarg","Gulmarg"],["Neermahal","Neermahal"]];
+const tile=(w,g,t,tag="div",x="")=>`<${tag} class="tile" data-w="${w}" style="--g:${g}"${x}><span>${t}</span></${tag}>`;
+$$(".tiles[data-t]").forEach(e=>e.innerHTML=e.dataset.t.split(",").map(k=>tile(PH[k][0],PH[k][1],k,"a",' href="work.html"')).join(""));
+if($("#strip"))$("#strip").innerHTML=SP.map((s,i)=>tile(s[1],`linear-gradient(160deg,hsl(${i*30} 35% 42%),hsl(${i*30} 40% 14%))`,s[0])).join("");
+if($("#wk"))$("#wk").innerHTML=D.map(d=>`<article>${tile(PH[d[0]][0],PH[d[0]][1],d[0])}<h3>${d[0]}</h3><p class="mut">${d[2]} · ${d[1]} · From ₹${d[3]}</p><p style="margin-top:10px;max-width:56ch">${d[4]}</p><details><summary>Places and experiences</summary><p><b>Popular places</b><br>${d[5]}</p><p><b>Suggested experiences</b><br>${d[6]}</p></details><a class="btn" href="contacts.html?dest=${d[0]}">Enquire about ${d[0]}</a></article>`).join("");
+if($("#cats"))$("#cats").innerHTML=cats.map(c=>`<div class="cat"><span class="lab">${c[0]} /</span><h3>${c[1]}</h3><ul>${c[2].split(", ").map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
+if($("#f"))document.querySelector("#f select").innerHTML+=D.map(d=>`<option>${d[0]}</option>`).join("");
+if($("#pk"))pk("All");
+document.querySelectorAll(".tog button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tog button").forEach(x=>x.setAttribute("aria-pressed",x==b));pk(b.dataset.f)});
+if($("#steps"))$("#steps").innerHTML=S.map((s,i)=>`<div><b>${String(i+1).padStart(2,"0")}</b><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join("");
+if($("#f"))$("#f").onsubmit=e=>{e.preventDefault();$("#ok").textContent="Thank you. Your enquiry has been noted. This does not confirm a booking; availability and pricing will be checked before a written quotation is sent."};
+const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target,n=+el.dataset.n;if(rm){el.textContent=n;return}let t0;const st=t=>{t0=t0||t;const k=Math.min((t-t0)/1200,1);el.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(st)};requestAnimationFrame(st)}),{threshold:.5});
+document.querySelectorAll("[data-n]").forEach(el=>io.observe(el));
+const q=new URLSearchParams(location.search).get("dest");if(q&&$("#f"))$("#f select").value=q;
+const sp=$("#strip");if(sp){let x,s,d=0;sp.onpointerdown=e=>{d=1;x=e.clientX;s=sp.scrollLeft;sp.classList.add("d")};addEventListener("pointermove",e=>{if(d)sp.scrollLeft=s-(e.clientX-x)});["pointerup","pointercancel"].forEach(t=>addEventListener(t,()=>{d=0;sp.classList.remove("d")}))}
+async function load(el){const t=el.dataset.w;try{let c=sessionStorage.getItem("p:"+t);if(!c){const j=await(await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(t.replace(/ /g,"_")))).json(),o=j.originalimage;if(!o)return;c=o.width>960&&j.thumbnail?j.thumbnail.source.replace(/\/\d+px-/,"/960px-"):o.source;try{sessionStorage.setItem("p:"+t,c)}catch(e){}}const im=new Image();im.onload=()=>{el.classList.add("ld");el.style.background=`url("${c}") center/cover,var(--g)`;requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.remove("ld")))};im.src=c}catch(e){}}
+$$(".tile[data-w]").forEach(load);
+/* ===== motion ===== */
+const root=document.documentElement;
+/* page transition: fade out, then load the next page (which fades in) */
+document.addEventListener("click",e=>{const a=e.target.closest("a[href]");if(!a||rm||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target||a.hasAttribute("download"))return;const u=new URL(a.href,location.href);if(u.protocol!=location.protocol||u.host!=location.host)return;if(u.pathname==location.pathname&&u.search==location.search){if(!u.hash){e.preventDefault();scrollTo({top:0,behavior:"smooth"})}return}e.preventDefault();if(root.classList.contains("leave"))return;root.classList.add("leave");setTimeout(()=>location.href=u.href,420)});
+addEventListener("pageshow",e=>{if(e.persisted)root.classList.remove("leave")});
+addEventListener("hashchange",()=>{if(pg=="studio")$$("header nav a").forEach(a=>{a.getAttribute("href").endsWith(location.hash||"#about")?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")})});
+/* header hides on scroll down, returns on scroll up */
+let ly=0;const hdr=$("header");addEventListener("scroll",()=>{const y=scrollY;hdr.classList.toggle("hide",y>ly&&y>160);ly=y},{passive:true});
+/* package cards re-enter when the filter changes */
+$$(".tog button").forEach(b=>{const o=b.onclick;b.onclick=ev=>{o(ev);if(!rm)$$("#pk .card").forEach((c,i)=>c.style.animation=`rise .6s cubic-bezier(.2,.7,.2,1) ${i*.07}s backwards`)}});
+/* scroll reveals, staggered within each batch */
+if(!rm){const els=$$(".row2>*,section>.statement,section>.cta,section>h2,.cat,.steps>div,.num>div,.card,.faq details,.wk article,.note").filter(el=>!el.closest(".hero")&&!el.closest("footer"));
+els.forEach(el=>el.classList.add("rv"));
+setTimeout(()=>{const o2=new IntersectionObserver(es=>{let i=0;es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;o2.unobserve(t);t.style.setProperty("--d",i++*.08+"s");requestAnimationFrame(()=>t.classList.add("in"));const f=ev=>{if(ev.target==t){t.classList.remove("rv","in");t.removeEventListener("transitionend",f)}};t.addEventListener("transitionend",f)})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});els.forEach(el=>o2.observe(el))},500)}

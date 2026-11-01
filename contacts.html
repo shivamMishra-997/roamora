@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Let’s talk — Roamora®</title>
+<meta name="description" content="Send Roamora an enquiry for a date-specific quotation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-p="contacts">
+<main class="w">
+<div class="hero">
+<h1 class="mark" style="font-size:clamp(48px,14vw,260px)">Let’s talk!</h1>
+<form class="mad" id="f">
+Hey Roamora, my name is <input required aria-label="Your name" placeholder="your name"> and I’m writing from <input required aria-label="Your city" placeholder="city">. I’d like to plan a trip to
+<select required aria-label="Destination"><option value="">Select a destination</option></select>
+for <input type="number" min="1" value="2" style="width:2.5em" aria-label="Travellers"> travellers, around
+<input type="date" aria-label="Preferred date" style="width:auto">. My budget is roughly
+<select required aria-label="Budget per person"><option value="">Select a budget</option><option>₹8,000–₹18,000</option><option>₹18,000–₹35,000</option><option>₹35,000–₹75,000+</option></select> per person. You can reach me at <input required aria-label="Phone or WhatsApp" placeholder="phone or WhatsApp">.
+<br><button class="btn" type="submit">Get in touch</button>
+<p class="ok" id="ok" role="status"></p>
+</form>
+</div>
+<section>
+<div class="cat"><span class="lab">Email</span><h3>Coming soon</h3><ul><li>Official enquiry details will appear here.</li></ul></div>
+<div class="cat"><span class="lab">Phone</span><h3>Coming soon</h3><ul><li>Official enquiry details will appear here.</li></ul></div>
+<div class="cat"><span class="lab">Hours</span><h3>Monday–Saturday</h3><ul><li>10:00 AM–6:00 PM IST</li></ul></div>
+</section>
+</main>
+<script src="data.js"></script>
+<script src="site.js"></script>
+</body>
+</html>
